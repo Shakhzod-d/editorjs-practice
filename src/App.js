@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import ReactEditor from "./Editor";
 
 function App() {
+  const editorCore = React.useRef(null);
+  const handleInitialize = React.useCallback((instance) => {
+    editorCore.current = instance;
+  }, []);
+
+  const handleSave = React.useCallback(async () => {
+    const savedData = await editorCore.current.save();
+    console.log(savedData);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <ReactEditor handleInitialize={handleInitialize} />
+      <button onClick={handleSave}>save</button>
+    </main>
   );
 }
 
